@@ -1,0 +1,75 @@
+### Registrar usuário CLIENTE
+POST http://localhost:8080/auth/register
+Content-Type: application/json
+
+{
+  "email": "sara@servicehub.com",
+  "senha": "123456",
+  "role": "CLIENTE",
+  "nome": "Sara Gisele",
+  "telefone": "(91) 99999-0000",
+  "bairro": "Nazaré"
+}
+
+### Login
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "sara@servicehub.com",
+  "senha": "123456"
+}
+
+### Criar cliente
+POST http://localhost:8080/clientes
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nome": "Marcos Silva",
+  "email": "marcos@servicehub.com",
+  "telefone": "(91) 98888-1111",
+  "bairro": "Umarizal"
+}
+
+### Listar clientes com paginação
+GET http://localhost:8080/clientes?page=0&size=10&sort=nome,asc
+Authorization: Bearer {{token}}
+
+### Criar diarista
+POST http://localhost:8080/diaristas
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nome": "Renata Costa",
+  "email": "renata@servicehub.com",
+  "telefone": "(91) 97777-2222",
+  "bairro": "Batista Campos",
+  "experiencia": "4 anos"
+}
+
+### Criar agendamento
+POST http://localhost:8080/agendamentos
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "clienteId": 1,
+  "diaristaId": 1,
+  "dataServico": "2026-03-05",
+  "status": "CONFIRMADO",
+  "observacoes": "Apartamento 2 quartos"
+}
+
+### Criar avaliação
+POST http://localhost:8080/avaliacoes
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "clienteId": 1,
+  "diaristaId": 1,
+  "nota": 5,
+  "comentario": "Excelente atendimento"
+}
