@@ -3,6 +3,7 @@ package br.com.servicehub.dto;
 import br.com.servicehub.domain.StatusAgendamento;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class AgendamentoResponse {
     private Long id;
@@ -11,19 +12,22 @@ public class AgendamentoResponse {
     private LocalDate dataServico;
     private StatusAgendamento status;
     private String observacoes;
+    private LocalDateTime createdAt;
 
     public AgendamentoResponse(Long id,
                                ClienteResponse cliente,
                                DiaristaResponse diarista,
                                LocalDate dataServico,
                                StatusAgendamento status,
-                               String observacoes) {
+                               String observacoes,
+                               LocalDateTime createdAt) {
         this.id = id;
         this.cliente = cliente;
         this.diarista = diarista;
         this.dataServico = dataServico;
         this.status = status;
         this.observacoes = observacoes;
+        this.createdAt = createdAt;
     }
 
     public Long getId() {
@@ -48,5 +52,9 @@ public class AgendamentoResponse {
 
     public String getObservacoes() {
         return observacoes;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }

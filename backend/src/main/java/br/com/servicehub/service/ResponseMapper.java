@@ -28,7 +28,8 @@ public final class ResponseMapper {
                 toDiaristaResponse(agendamento.getDiarista()),
                 agendamento.getDataServico(),
                 agendamento.getStatus(),
-                agendamento.getObservacoes()
+                agendamento.getObservacoes(),
+                agendamento.getCreatedAt()
         );
     }
 

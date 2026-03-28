@@ -85,7 +85,10 @@ public class AgendamentoController {
         agendamento.setCliente(cliente);
         agendamento.setDiarista(diarista);
         agendamento.setDataServico(request.getDataServico());
-        if (request.getStatus() != null) {
+        Usuario usuario = authUtils.currentUsuario();
+        if (usuario.getRole() == Role.CLIENTE) {
+            agendamento.setStatus(br.com.servicehub.domain.StatusAgendamento.PENDENTE);
+        } else if (request.getStatus() != null) {
             agendamento.setStatus(request.getStatus());
         }
         agendamento.setObservacoes(request.getObservacoes());

@@ -98,7 +98,11 @@ export default function Historico() {
                 <p>{agendamento.diarista?.bairro || 'Belém'} • {agendamento.dataServico}</p>
               </div>
               <div>
-                <span className={`pill ${agendamento.status.toLowerCase()}`}>{statusLabels[agendamento.status]}</span>
+                <span className={`pill ${agendamento.status.toLowerCase()}`}>
+                  {user?.role === 'CLIENTE' && agendamento.status === 'PENDENTE'
+                    ? 'Aguardando confirmação'
+                    : statusLabels[agendamento.status]}
+                </span>
               </div>
               <div className="row-meta">
                 <span>Cliente: {agendamento.cliente?.nome}</span>

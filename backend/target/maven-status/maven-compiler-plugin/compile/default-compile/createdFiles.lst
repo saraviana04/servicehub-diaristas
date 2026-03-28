@@ -1,4 +1,5 @@
 br/com/servicehub/domain/Agendamento.class
+br/com/servicehub/service/AgendamentoScheduler.class
 br/com/servicehub/dto/RegisterRequest.class
 br/com/servicehub/service/AuthUtils.class
 br/com/servicehub/security/SecurityConfig.class

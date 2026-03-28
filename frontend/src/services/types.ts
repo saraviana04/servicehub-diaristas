@@ -18,6 +18,7 @@ export interface Agendamento {
   dataServico: string;
   status: string;
   observacoes?: string;
+  createdAt?: string;
 }
 
 export interface Avaliacao {

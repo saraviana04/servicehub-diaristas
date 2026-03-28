@@ -34,5 +34,6 @@
 /home/sara/Área de trabalho/BACKUP_SARA_09/backupSara/sara/GitHub_Projetos/ServiceHub_Diarista/backend/src/main/java/br/com/servicehub/security/JwtService.java
 /home/sara/Área de trabalho/BACKUP_SARA_09/backupSara/sara/GitHub_Projetos/ServiceHub_Diarista/backend/src/main/java/br/com/servicehub/security/SecurityConfig.java
 /home/sara/Área de trabalho/BACKUP_SARA_09/backupSara/sara/GitHub_Projetos/ServiceHub_Diarista/backend/src/main/java/br/com/servicehub/security/UsuarioDetailsService.java
+/home/sara/Área de trabalho/BACKUP_SARA_09/backupSara/sara/GitHub_Projetos/ServiceHub_Diarista/backend/src/main/java/br/com/servicehub/service/AgendamentoScheduler.java
 /home/sara/Área de trabalho/BACKUP_SARA_09/backupSara/sara/GitHub_Projetos/ServiceHub_Diarista/backend/src/main/java/br/com/servicehub/service/AuthUtils.java
 /home/sara/Área de trabalho/BACKUP_SARA_09/backupSara/sara/GitHub_Projetos/ServiceHub_Diarista/backend/src/main/java/br/com/servicehub/service/ResponseMapper.java
