@@ -382,6 +382,10 @@ textarea {
   gap: 32px;
 }
 
+.detail-layout.single {
+  grid-template-columns: 1fr;
+}
+
 .detail-card,
 .detail-form {
   background: var(--surface);
