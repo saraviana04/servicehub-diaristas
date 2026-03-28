@@ -65,3 +65,4 @@ Authorization: Bearer <token>
 - `http://localhost:8080/swagger-ui/index.html`
 
 # servicehub-diaristas
+# servicehub-diarista
