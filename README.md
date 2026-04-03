@@ -52,9 +52,14 @@ Authorization: Bearer <token>
 
 ## Endpoints principais
 - `clientes`: `GET /clientes`, `GET /clientes/{id}`, `POST`, `PUT`, `DELETE`
-- `diaristas`: `GET /diaristas`, `GET /diaristas/{id}`, `POST`, `PUT`, `DELETE`
+- `diaristas`: `GET /diaristas`, `GET /diaristas/{id}` (perfil com métricas), `POST`, `PUT`, `DELETE`
 - `agendamentos`: `GET /agendamentos`, `GET /agendamentos/{id}`, `POST`, `PUT`, `DELETE`
 - `avaliacoes`: `GET /avaliacoes`, `GET /avaliacoes/{id}`, `POST`, `PUT`, `DELETE`
+
+## Avaliações
+- `POST /avaliacoes` requer `clienteId`, `diaristaId`, `agendamentoId`, `nota` e (opcional) `comentario`.
+- Só é permitido avaliar se o agendamento estiver com status `CONCLUIDO`.
+- Um agendamento pode receber apenas uma avaliação.
 
 ## Regras de acesso
 - `CLIENTE` acessa apenas seus dados e seus agendamentos/avaliacoes
@@ -63,6 +68,3 @@ Authorization: Bearer <token>
 
 ## Swagger
 - `http://localhost:8080/swagger-ui/index.html`
-
-# servicehub-diaristas
-# servicehub-diarista
