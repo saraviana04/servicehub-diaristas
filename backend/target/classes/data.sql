@@ -10,6 +10,6 @@ INSERT INTO agendamentos (cliente_id, diarista_id, data_servico, status, observa
 (1, 1, '2026-03-05', 'CONFIRMADO', 'Apartamento 2 quartos'),
 (2, 2, '2026-03-06', 'PENDENTE', 'Casa térrea');
 
-INSERT INTO avaliacoes (cliente_id, diarista_id, nota, comentario) VALUES
-(1, 1, 5, 'Excelente atendimento'),
-(2, 2, 4, 'Muito bom, pontual');
+INSERT INTO avaliacoes (cliente_id, diarista_id, agendamento_id, nota, comentario) VALUES
+(1, 1, 1, 5, 'Excelente atendimento'),
+(2, 2, 2, 4, 'Muito bom, pontual');

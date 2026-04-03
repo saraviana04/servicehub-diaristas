@@ -20,6 +20,7 @@ mvn spring-boot:run
 ## Dados iniciais
 Existe um `data.sql` com clientes, diaristas, agendamentos e avaliações.
 Usuários precisam ser criados via `/auth/register`.
+Avaliações agora são vinculadas ao agendamento (campo `agendamentoId`) e só podem ser feitas uma vez por agendamento.
 
 ## Endpoints
 - `POST /auth/register`
@@ -31,7 +32,7 @@ Usuários precisam ser criados via `/auth/register`.
 - `PUT /clientes/{id}`
 - `DELETE /clientes/{id}`
 - `GET /diaristas`
-- `GET /diaristas/{id}`
+- `GET /diaristas/{id}` (perfil com métricas e avaliações recentes)
 - `POST /diaristas`
 - `PUT /diaristas/{id}`
 - `DELETE /diaristas/{id}`
@@ -50,6 +51,11 @@ Usuários precisam ser criados via `/auth/register`.
 - Registre e faça login em `/auth/*` para obter o token JWT.
 - Use o header `Authorization: Bearer <token>` nos outros endpoints.
 - Para `role=CLIENTE` ou `role=DIARISTA`, envie também `nome`, `telefone` e (opcional) `bairro`.
+
+## Avaliações
+- `POST /avaliacoes` requer `clienteId`, `diaristaId`, `agendamentoId`, `nota` e (opcional) `comentario`.
+- Só é permitido avaliar se o agendamento estiver com status `CONCLUIDO`.
+- Um agendamento pode receber apenas uma avaliação.
 
 ## Paginação e ordenação
 Todos os endpoints de listagem aceitam `page`, `size` e `sort`.
