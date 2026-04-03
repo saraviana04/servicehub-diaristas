@@ -11,6 +11,9 @@ public class AvaliacaoRequest {
     @NotNull(message = "diaristaId é obrigatório")
     private Long diaristaId;
 
+    @NotNull(message = "agendamentoId é obrigatório")
+    private Long agendamentoId;
+
     @NotNull(message = "nota é obrigatória")
     @Min(1)
     @Max(5)
@@ -32,6 +35,14 @@ public class AvaliacaoRequest {
 
     public void setDiaristaId(Long diaristaId) {
         this.diaristaId = diaristaId;
+    }
+
+    public Long getAgendamentoId() {
+        return agendamentoId;
+    }
+
+    public void setAgendamentoId(Long agendamentoId) {
+        this.agendamentoId = agendamentoId;
     }
 
     public Integer getNota() {

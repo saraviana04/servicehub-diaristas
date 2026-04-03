@@ -70,6 +70,7 @@ Content-Type: application/json
 {
   "clienteId": 1,
   "diaristaId": 1,
+  "agendamentoId": 1,
   "nota": 5,
   "comentario": "Excelente atendimento"
 }

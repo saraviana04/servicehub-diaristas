@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "avaliacoes")
+@Table(name = "avaliacoes", uniqueConstraints = @UniqueConstraint(columnNames = "agendamento_id"))
 public class Avaliacao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +22,10 @@ public class Avaliacao {
     @JoinColumn(name = "diarista_id")
     @JsonIgnoreProperties({"email", "telefone", "experiencia"})
     private Diarista diarista;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "agendamento_id")
+    private Agendamento agendamento;
 
     @NotNull
     @Min(1)
@@ -52,6 +56,14 @@ public class Avaliacao {
 
     public void setDiarista(Diarista diarista) {
         this.diarista = diarista;
+    }
+
+    public Agendamento getAgendamento() {
+        return agendamento;
+    }
+
+    public void setAgendamento(Agendamento agendamento) {
+        this.agendamento = agendamento;
     }
 
     public Integer getNota() {

@@ -13,4 +13,5 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> 
     Page<Agendamento> findByClienteId(Long clienteId, Pageable pageable);
     Page<Agendamento> findByDiaristaId(Long diaristaId, Pageable pageable);
     List<Agendamento> findByStatusAndCreatedAtBefore(StatusAgendamento status, LocalDateTime limite);
+    long countByDiaristaIdAndStatus(Long diaristaId, StatusAgendamento status);
 }

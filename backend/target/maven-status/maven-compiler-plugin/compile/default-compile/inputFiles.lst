@@ -19,8 +19,10 @@
 /home/sara/Área de trabalho/BACKUP_SARA_09/backupSara/sara/GitHub_Projetos/ServiceHub_Diarista/backend/src/main/java/br/com/servicehub/dto/AuthResponse.java
 /home/sara/Área de trabalho/BACKUP_SARA_09/backupSara/sara/GitHub_Projetos/ServiceHub_Diarista/backend/src/main/java/br/com/servicehub/dto/AvaliacaoRequest.java
 /home/sara/Área de trabalho/BACKUP_SARA_09/backupSara/sara/GitHub_Projetos/ServiceHub_Diarista/backend/src/main/java/br/com/servicehub/dto/AvaliacaoResponse.java
+/home/sara/Área de trabalho/BACKUP_SARA_09/backupSara/sara/GitHub_Projetos/ServiceHub_Diarista/backend/src/main/java/br/com/servicehub/dto/AvaliacaoResumoResponse.java
 /home/sara/Área de trabalho/BACKUP_SARA_09/backupSara/sara/GitHub_Projetos/ServiceHub_Diarista/backend/src/main/java/br/com/servicehub/dto/ClienteRequest.java
 /home/sara/Área de trabalho/BACKUP_SARA_09/backupSara/sara/GitHub_Projetos/ServiceHub_Diarista/backend/src/main/java/br/com/servicehub/dto/ClienteResponse.java
+/home/sara/Área de trabalho/BACKUP_SARA_09/backupSara/sara/GitHub_Projetos/ServiceHub_Diarista/backend/src/main/java/br/com/servicehub/dto/DiaristaPerfilResponse.java
 /home/sara/Área de trabalho/BACKUP_SARA_09/backupSara/sara/GitHub_Projetos/ServiceHub_Diarista/backend/src/main/java/br/com/servicehub/dto/DiaristaRequest.java
 /home/sara/Área de trabalho/BACKUP_SARA_09/backupSara/sara/GitHub_Projetos/ServiceHub_Diarista/backend/src/main/java/br/com/servicehub/dto/DiaristaResponse.java
 /home/sara/Área de trabalho/BACKUP_SARA_09/backupSara/sara/GitHub_Projetos/ServiceHub_Diarista/backend/src/main/java/br/com/servicehub/dto/MeResponse.java

@@ -11,6 +11,28 @@ export interface Diarista {
   experiencia?: string;
 }
 
+export interface AvaliacaoResumo {
+  id: number;
+  nota: number;
+  comentario?: string;
+  clienteNome: string;
+}
+
+export interface DiaristaPerfil extends Diarista {
+  bio?: string;
+  especialidades?: string[];
+  disponibilidade?: string;
+  materiaisProprios?: boolean;
+  agendaFlexivel?: boolean;
+  checklist?: boolean;
+  raioAtendimentoKm?: number;
+  precoBase?: number;
+  notaMedia?: number;
+  totalAvaliacoes?: number;
+  servicosConcluidos?: number;
+  avaliacoesRecentes?: AvaliacaoResumo[];
+}
+
 export interface Agendamento {
   id: number;
   cliente: Cliente;
@@ -25,6 +47,7 @@ export interface Avaliacao {
   id: number;
   cliente: Cliente;
   diarista: Diarista;
+  agendamentoId?: number | null;
   nota: number;
   comentario?: string;
 }

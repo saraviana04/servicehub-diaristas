@@ -433,6 +433,12 @@ textarea {
   font-size: 14px;
 }
 
+.profile-price {
+  color: var(--ink);
+  font-weight: 600;
+  margin-top: 6px;
+}
+
 .profile-badges {
   margin-top: 12px;
   display: flex;
@@ -452,7 +458,7 @@ textarea {
 
 .profile-stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 16px;
   margin: 24px 0;
 }
@@ -473,6 +479,13 @@ textarea {
   display: block;
   font-size: 18px;
   margin-top: 6px;
+}
+
+.profile-stat small {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 12px;
 }
 
 .profile-about h4,
@@ -509,6 +522,38 @@ textarea {
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(30, 27, 22, 0.08);
+}
+
+.profile-reviews {
+  display: grid;
+  gap: 12px;
+}
+
+.review-list {
+  display: grid;
+  gap: 12px;
+}
+
+.review-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 12px 14px;
+  border: 1px solid rgba(30, 27, 22, 0.08);
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  color: var(--ink);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.review-rating {
+  color: var(--accent);
+  font-weight: 700;
 }
 
 .schedule-list {

@@ -38,6 +38,7 @@ public final class ResponseMapper {
                 avaliacao.getId(),
                 toClienteResponse(avaliacao.getCliente()),
                 toDiaristaResponse(avaliacao.getDiarista()),
+                avaliacao.getAgendamento() != null ? avaliacao.getAgendamento().getId() : null,
                 avaliacao.getNota(),
                 avaliacao.getComentario()
         );

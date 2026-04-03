@@ -17,6 +17,7 @@ br/com/servicehub/controller/AuthController.class
 br/com/servicehub/dto/ClienteResponse.class
 br/com/servicehub/repository/UsuarioRepository.class
 br/com/servicehub/repository/ClienteRepository.class
+br/com/servicehub/dto/DiaristaPerfilResponse.class
 br/com/servicehub/config/CorsConfig$1.class
 br/com/servicehub/dto/DiaristaResponse.class
 br/com/servicehub/controller/AvaliacaoController.class
@@ -28,6 +29,7 @@ br/com/servicehub/repository/DiaristaRepository.class
 br/com/servicehub/dto/AgendamentoRequest.class
 br/com/servicehub/controller/ApiExceptionHandler.class
 br/com/servicehub/domain/Usuario.class
+br/com/servicehub/dto/AvaliacaoResumoResponse.class
 br/com/servicehub/dto/DiaristaRequest.class
 br/com/servicehub/security/UsuarioDetailsService.class
 br/com/servicehub/ServiceHubApplication.class

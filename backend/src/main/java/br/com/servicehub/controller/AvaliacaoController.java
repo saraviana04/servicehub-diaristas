@@ -1,12 +1,15 @@
 package br.com.servicehub.controller;
 
+import br.com.servicehub.domain.Agendamento;
 import br.com.servicehub.domain.Avaliacao;
 import br.com.servicehub.domain.Cliente;
+import br.com.servicehub.domain.StatusAgendamento;
 import br.com.servicehub.domain.Diarista;
 import br.com.servicehub.domain.Role;
 import br.com.servicehub.domain.Usuario;
 import br.com.servicehub.dto.AvaliacaoRequest;
 import br.com.servicehub.dto.AvaliacaoResponse;
+import br.com.servicehub.repository.AgendamentoRepository;
 import br.com.servicehub.repository.AvaliacaoRepository;
 import br.com.servicehub.repository.ClienteRepository;
 import br.com.servicehub.repository.DiaristaRepository;
@@ -26,15 +29,18 @@ public class AvaliacaoController {
     private final AvaliacaoRepository avaliacaoRepository;
     private final ClienteRepository clienteRepository;
     private final DiaristaRepository diaristaRepository;
+    private final AgendamentoRepository agendamentoRepository;
     private final AuthUtils authUtils;
 
     public AvaliacaoController(AvaliacaoRepository avaliacaoRepository,
                                ClienteRepository clienteRepository,
                                DiaristaRepository diaristaRepository,
+                               AgendamentoRepository agendamentoRepository,
                                AuthUtils authUtils) {
         this.avaliacaoRepository = avaliacaoRepository;
         this.clienteRepository = clienteRepository;
         this.diaristaRepository = diaristaRepository;
+        this.agendamentoRepository = agendamentoRepository;
         this.authUtils = authUtils;
     }
 
@@ -76,14 +82,27 @@ public class AvaliacaoController {
     @PreAuthorize("hasAnyRole('CLIENTE','ADMIN')")
     public AvaliacaoResponse criar(@Valid @RequestBody AvaliacaoRequest request) {
         validarAcessoRequest(request.getClienteId());
-        Cliente cliente = clienteRepository.findById(request.getClienteId())
-                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
-        Diarista diarista = diaristaRepository.findById(request.getDiaristaId())
-                .orElseThrow(() -> new IllegalArgumentException("Diarista não encontrado"));
+        if (avaliacaoRepository.existsByAgendamentoId(request.getAgendamentoId())) {
+            throw new IllegalArgumentException("Este agendamento já foi avaliado");
+        }
+        Agendamento agendamento = agendamentoRepository.findById(request.getAgendamentoId())
+                .orElseThrow(() -> new IllegalArgumentException("Agendamento não encontrado"));
+        if (agendamento.getStatus() != StatusAgendamento.CONCLUIDO) {
+            throw new IllegalArgumentException("O serviço ainda não foi concluído");
+        }
+        if (agendamento.getCliente() == null || !agendamento.getCliente().getId().equals(request.getClienteId())) {
+            throw new IllegalArgumentException("Cliente não autorizado para esta avaliação");
+        }
+        if (agendamento.getDiarista() == null || !agendamento.getDiarista().getId().equals(request.getDiaristaId())) {
+            throw new IllegalArgumentException("Diarista não corresponde ao agendamento");
+        }
+        Cliente cliente = agendamento.getCliente();
+        Diarista diarista = agendamento.getDiarista();
 
         Avaliacao avaliacao = new Avaliacao();
         avaliacao.setCliente(cliente);
         avaliacao.setDiarista(diarista);
+        avaliacao.setAgendamento(agendamento);
         avaliacao.setNota(request.getNota());
         avaliacao.setComentario(request.getComentario());
 
@@ -98,13 +117,24 @@ public class AvaliacaoController {
                 .orElseThrow(() -> new IllegalArgumentException("Avaliação não encontrada"));
         validarAcessoAvaliacao(existente);
         validarAcessoRequest(request.getClienteId());
-        Cliente cliente = clienteRepository.findById(request.getClienteId())
-                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
-        Diarista diarista = diaristaRepository.findById(request.getDiaristaId())
-                .orElseThrow(() -> new IllegalArgumentException("Diarista não encontrado"));
+        Agendamento agendamento = agendamentoRepository.findById(request.getAgendamentoId())
+                .orElseThrow(() -> new IllegalArgumentException("Agendamento não encontrado"));
+        if (existente.getAgendamento() != null
+                && !existente.getAgendamento().getId().equals(request.getAgendamentoId())) {
+            throw new IllegalArgumentException("Não é permitido alterar o agendamento da avaliação");
+        }
+        if (agendamento.getCliente() == null || !agendamento.getCliente().getId().equals(request.getClienteId())) {
+            throw new IllegalArgumentException("Cliente não autorizado para esta avaliação");
+        }
+        if (agendamento.getDiarista() == null || !agendamento.getDiarista().getId().equals(request.getDiaristaId())) {
+            throw new IllegalArgumentException("Diarista não corresponde ao agendamento");
+        }
+        Cliente cliente = agendamento.getCliente();
+        Diarista diarista = agendamento.getDiarista();
 
         existente.setCliente(cliente);
         existente.setDiarista(diarista);
+        existente.setAgendamento(agendamento);
         existente.setNota(request.getNota());
         existente.setComentario(request.getComentario());
 

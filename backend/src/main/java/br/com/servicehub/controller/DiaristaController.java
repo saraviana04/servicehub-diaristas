@@ -1,10 +1,15 @@
 package br.com.servicehub.controller;
 
 import br.com.servicehub.domain.Diarista;
+import br.com.servicehub.domain.StatusAgendamento;
 import br.com.servicehub.dto.DiaristaRequest;
+import br.com.servicehub.dto.DiaristaPerfilResponse;
 import br.com.servicehub.dto.DiaristaResponse;
 import br.com.servicehub.domain.Usuario;
 import br.com.servicehub.domain.Role;
+import br.com.servicehub.dto.AvaliacaoResumoResponse;
+import br.com.servicehub.repository.AgendamentoRepository;
+import br.com.servicehub.repository.AvaliacaoRepository;
 import br.com.servicehub.repository.DiaristaRepository;
 import br.com.servicehub.service.AuthUtils;
 import br.com.servicehub.service.ResponseMapper;
@@ -12,6 +17,8 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +28,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/diaristas")
 public class DiaristaController {
     private final DiaristaRepository repository;
+    private final AvaliacaoRepository avaliacaoRepository;
+    private final AgendamentoRepository agendamentoRepository;
     private final AuthUtils authUtils;
 
-    public DiaristaController(DiaristaRepository repository, AuthUtils authUtils) {
+    public DiaristaController(DiaristaRepository repository,
+                              AvaliacaoRepository avaliacaoRepository,
+                              AgendamentoRepository agendamentoRepository,
+                              AuthUtils authUtils) {
         this.repository = repository;
+        this.avaliacaoRepository = avaliacaoRepository;
+        this.agendamentoRepository = agendamentoRepository;
         this.authUtils = authUtils;
     }
 
@@ -52,17 +66,17 @@ public class DiaristaController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('CLIENTE','DIARISTA','ADMIN')")
-    public DiaristaResponse buscar(@PathVariable Long id) {
+    public DiaristaPerfilResponse buscar(@PathVariable Long id) {
         Usuario usuario = authUtils.currentUsuario();
         if (!authUtils.isAdmin(usuario) && usuario.getRole() == Role.DIARISTA) {
             if (usuario.getDiarista() == null || !usuario.getDiarista().getId().equals(id)) {
                 throw new IllegalArgumentException("Acesso negado à diarista");
             }
-            return ResponseMapper.toDiaristaResponse(usuario.getDiarista());
+            return montarPerfil(usuario.getDiarista());
         }
         Diarista diarista = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Diarista não encontrada"));
-        return ResponseMapper.toDiaristaResponse(diarista);
+        return montarPerfil(diarista);
     }
 
     @PostMapping
@@ -79,6 +93,14 @@ public class DiaristaController {
         diarista.setTelefone(request.getTelefone());
         diarista.setBairro(request.getBairro());
         diarista.setExperiencia(request.getExperiencia());
+        diarista.setBio(request.getBio());
+        diarista.setEspecialidades(request.getEspecialidades());
+        diarista.setDisponibilidade(request.getDisponibilidade());
+        diarista.setMateriaisProprios(request.getMateriaisProprios());
+        diarista.setAgendaFlexivel(request.getAgendaFlexivel());
+        diarista.setChecklist(request.getChecklist());
+        diarista.setRaioAtendimentoKm(request.getRaioAtendimentoKm());
+        diarista.setPrecoBase(request.getPrecoBase());
         Diarista salvo = repository.save(diarista);
         return ResponseMapper.toDiaristaResponse(salvo);
     }
@@ -99,6 +121,14 @@ public class DiaristaController {
         existente.setTelefone(request.getTelefone());
         existente.setBairro(request.getBairro());
         existente.setExperiencia(request.getExperiencia());
+        existente.setBio(request.getBio());
+        existente.setEspecialidades(request.getEspecialidades());
+        existente.setDisponibilidade(request.getDisponibilidade());
+        existente.setMateriaisProprios(request.getMateriaisProprios());
+        existente.setAgendaFlexivel(request.getAgendaFlexivel());
+        existente.setChecklist(request.getChecklist());
+        existente.setRaioAtendimentoKm(request.getRaioAtendimentoKm());
+        existente.setPrecoBase(request.getPrecoBase());
         Diarista salvo = repository.save(existente);
         return ResponseMapper.toDiaristaResponse(salvo);
     }
@@ -115,5 +145,48 @@ public class DiaristaController {
             throw new IllegalArgumentException("Diarista não encontrada");
         }
         repository.deleteById(id);
+    }
+
+    private DiaristaPerfilResponse montarPerfil(Diarista diarista) {
+        Long diaristaId = diarista.getId();
+        long totalAvaliacoes = avaliacaoRepository.countByDiaristaId(diaristaId);
+        Double notaMedia = avaliacaoRepository.averageNotaByDiaristaId(diaristaId);
+        long servicosConcluidos = agendamentoRepository.countByDiaristaIdAndStatus(diaristaId, StatusAgendamento.CONCLUIDO);
+        java.util.List<AvaliacaoResumoResponse> avaliacoesRecentes = avaliacaoRepository
+                .findByDiaristaId(diaristaId, PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "id")))
+                .map(avaliacao -> new AvaliacaoResumoResponse(
+                        avaliacao.getId(),
+                        avaliacao.getNota(),
+                        avaliacao.getComentario(),
+                        avaliacao.getCliente() != null ? avaliacao.getCliente().getNome() : "Cliente"
+                ))
+                .getContent();
+
+        java.util.List<String> especialidades = null;
+        if (diarista.getEspecialidades() != null && !diarista.getEspecialidades().isBlank()) {
+            especialidades = java.util.Arrays.stream(diarista.getEspecialidades().split(","))
+                    .map(String::trim)
+                    .filter(item -> !item.isBlank())
+                    .collect(java.util.stream.Collectors.toList());
+        }
+
+        return new DiaristaPerfilResponse(
+                diarista.getId(),
+                diarista.getNome(),
+                diarista.getBairro(),
+                diarista.getExperiencia(),
+                diarista.getBio(),
+                especialidades,
+                diarista.getDisponibilidade(),
+                diarista.getMateriaisProprios(),
+                diarista.getAgendaFlexivel(),
+                diarista.getChecklist(),
+                diarista.getRaioAtendimentoKm(),
+                diarista.getPrecoBase(),
+                notaMedia,
+                totalAvaliacoes,
+                servicosConcluidos,
+                avaliacoesRecentes
+        );
     }
 }
